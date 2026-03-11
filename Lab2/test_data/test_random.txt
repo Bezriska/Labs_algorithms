@@ -1,0 +1,31 @@
+15
+3.14
+pi number
+-7.0
+negative seven
+12.5
+twelve point five
+0.5
+half
+9.9
+nine point nine
+-1.2
+minus one point two
+4.4
+four point four
+8.0
+eight
+2.2
+two point two
+15.0
+fifteen
+6.66
+six sixty six
+-3.5
+minus three point five
+11.1
+eleven point one
+7.7
+seven point seven
+0.0
+zero

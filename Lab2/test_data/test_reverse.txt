@@ -1,0 +1,31 @@
+15
+20.0
+twenty
+18.5
+eighteen point five
+17.0
+seventeen
+15.2
+fifteen point two
+14.0
+fourteen
+12.3
+twelve point three
+10.0
+ten
+8.8
+eight point eight
+7.0
+seven
+5.5
+five point five
+4.0
+four
+2.2
+two point two
+1.0
+one
+0.0
+zero
+-5.5
+minus five point five

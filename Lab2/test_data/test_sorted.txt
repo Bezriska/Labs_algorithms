@@ -1,0 +1,32 @@
+15
+-12.5
+minus twelve point five
+-3.14
+minus pi
+0.0
+zero
+1.1
+one point one
+2.5
+two point five
+3.0
+three
+4.2
+four point two
+5.5
+five point five
+6.0
+six
+7.7
+seven point seven
+8.8
+eight point eight
+9.0
+nine
+10.01
+ten point zero one
+11.5
+eleven point five
+12.0
+twelve
+
