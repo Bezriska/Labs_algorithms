@@ -1,3 +1,6 @@
+#ifndef READ_H
+#define READ_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,21 +17,6 @@ Data* initiate_data(char* data, double key) {
     dt->data[sizeof(dt->data) - 1] = '\0';
     dt->key = key;
     return dt;
-}
-
-int read_count(char* path) {
-    FILE* fp = fopen(path, "r");
-    if (!fp) {
-        printf("Can not open file\n");
-        return 0;
-    }
-    
-    char str_count[12];
-    fgets(str_count, sizeof(str_count), fp);
-    
-    int count = (int)strtod(str_count, NULL);
-    fclose(fp);
-    return count;
 }
 
 Data** read(char* path) {
@@ -63,10 +51,14 @@ Data** read(char* path) {
     return main_massive;
 }
 
-void show(Data** main_massive, int count) {
-    for (int i = 0; i < count; ++i) {
-        printf("\nElement %d\n", i);
-        printf("Key: %lf\n", main_massive[i]->key);
-        printf("Data: %s\n", main_massive[i]->data);
-    }
+Data*** collect_all_arrays() {
+    Data*** arrays = (Data***)malloc(3 * sizeof(Data**));
+
+    arrays[0] = read("test_data/test_sorted.txt");
+    arrays[1] = read("test_data/test_reverse.txt");
+    arrays[2] = read("test_data/test_random.txt");
+
+    return arrays;
 }
+
+#endif // READ_H
