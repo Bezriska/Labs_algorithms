@@ -16,11 +16,13 @@ int main() {
 
     printf("\nChoose array for binary search:\n1) Sorted array\n2) Reverse array\n3)Random array\n");
     int num_arr;
-    scanf("%d", &num_arr);
 
     Data** choosed_array;
     int count;
 
+
+    label:
+    scanf("%d", &num_arr);
     switch (num_arr) {
         case 1:
             choosed_array = arrays[0];
@@ -39,6 +41,7 @@ int main() {
 
         default:
             printf("Choose number in range 1-3\n");
+            goto label;
     }
 
     while (1) {
