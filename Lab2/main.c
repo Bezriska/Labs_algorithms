@@ -3,7 +3,6 @@
 #include "help.h"
 #include "sort.h"
 #include "search.h"
-
 //Number of method: 7
 //Structure: 5
 

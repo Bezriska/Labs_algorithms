@@ -7,16 +7,30 @@
 
 
 typedef struct {
-    char data[256];
+    char* data;
     double key;
 } Data;
 
 Data* initiate_data(char* data, double key) {
     Data* dt = (Data*)malloc(sizeof(Data));
-    strncpy(dt->data, data, sizeof(dt->data) - 1);
-    dt->data[sizeof(dt->data) - 1] = '\0';
+    dt->data = (char*)malloc(strlen(data) + 1);
+    strcpy(dt->data, data);
     dt->key = key;
     return dt;
+}
+
+void free_data(Data* dt) {
+    if (dt) {
+        free(dt->data);
+        free(dt);
+    }
+}
+
+void free_data_array(Data** arr, int count) {
+    for (int i = 0; i < count; ++i) {
+        free_data(arr[i]);
+    }
+    free(arr);
 }
 
 Data** read(char* path) {
@@ -36,15 +50,20 @@ Data** read(char* path) {
     Data** main_massive = (Data**)malloc(count * sizeof(Data*));
 
     for (int i = 0; i < count; ++i) {
-        char buffer[128];
-        fgets(buffer, sizeof(buffer), fp);
-        double key = strtod(buffer, NULL);
+        char* line = NULL;
+        size_t len = 0;
         
-        char data_buffer[128];
-        fgets(data_buffer, sizeof(data_buffer), fp);
+        getline(&line, &len, fp);
+        double key = strtod(line, NULL);
+        free(line);
         
-        Data* temp = initiate_data(data_buffer, key);
+        line = NULL;
+        len = 0;
+        getline(&line, &len, fp);
+        
+        Data* temp = initiate_data(line, key);
         main_massive[i] = temp;
+        free(line);
     }
 
     fclose(fp);
@@ -61,4 +80,4 @@ Data*** collect_all_arrays() {
     return arrays;
 }
 
-#endif // READ_H
+#endif
