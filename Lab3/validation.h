@@ -15,83 +15,55 @@ int isoper(char ch) {
 
 
 int validation(char* str) {
-    char prev = '@';
     int bracket_count = 0;
-    
-    for(int i = 0; str[i] != '\0'; ++i) {
-        if (prev == '@') {
-            prev = str[i];
+    int expecting_operand = 1; // 1 - ждем операнд или (, 0 - ждем опертор или )
 
-            if (str[i] == '(') {
-                ++bracket_count;
-            }
-
-            if (!(isalnum(str[i]) || str[i] == '(')) {
-                return 0;
-            }
-
-        } else {
-            
-            if (!(isalnum(str[i]) || isoper(str[i]))) {
-                return 0;
-            }
-
-            // Проверка чередования не может быть два оператора или две цифры подряд (кроме скобок)
-            if ((isoper(prev) && prev != '(' && prev != ')') && (isoper(str[i]) && str[i] != '(' && str[i] != ')')) {
-                return 0;
-            }
-            if (isalnum(prev) && isalnum(str[i])) {
-                return 0;
-            }
-
-            // После открывающей скобки должна быть цифра или другая открывающая скобка
-            if (prev == '(' && !(isalnum(str[i]) || str[i] == '(')) {
-                return 0;
-            }
-
-            // Перед закрывающей скобкой должна быть цифра или другая закрывающая скобка
-            if (str[i] == ')' && !(isalnum(prev) || prev == ')')) {
-                return 0;
-            }
-
-            // После закрывающей скобки должен быть оператор, закрывающая скобка или конец строки
-            if (prev == ')' && !(isoper(str[i]) || str[i + 1] == '\0')) {
-                return 0;
-            }
-
-            // Перед открывающей скобкой должен быть оператор или другая открывающая скобка
-            if (str[i] == '(' && !(isoper(prev) || prev == '(')) {
-                return 0;
-            }
-
-            // Оператор не может быть в конце (кроме закрывающей скобки)
-            if (isoper(str[i]) && str[i] != ')' && str[i + 1] == '\0') {
-                return 0;
-            }
-
-            // Подсчет скобок
-            if (str[i] == '(') {
-                ++bracket_count;
-            }
-
-            if (str[i] == ')') {
-                --bracket_count;
-                // Проверка, что закрывающих скобок не больше, чем открывающих
-                if (bracket_count < 0) {
-                    return 0;
-                }
-            }
-
-            prev = str[i];
-            
+    for (int i = 0; str[i] != '\0'; ++i) {
+        if (isspace((unsigned char)str[i])) {
+            continue;
         }
-    }
-    
-    if (bracket_count == 0) {
-        return 1;
-    } else {
+
+        if (isdigit((unsigned char)str[i])) {
+            if (!expecting_operand) {
+                return 0;
+            }
+
+            while (isdigit((unsigned char)str[i + 1])) {
+                ++i;
+            }
+            expecting_operand = 0;
+            continue;
+        }
+
+        if (str[i] == '(') {
+            if (!expecting_operand) {
+                return 0;
+            }
+            ++bracket_count;
+            continue;
+        }
+
+        if (str[i] == ')') {
+            if (expecting_operand || bracket_count == 0) {
+                return 0;
+            }
+            --bracket_count;
+            expecting_operand = 0;
+            continue;
+        }
+
+        if (str[i] == '+' || str[i] == '-' || str[i] == '*' || str[i] == '/' || str[i] == '^') {
+            if (expecting_operand) {
+                return 0;
+            }
+            expecting_operand = 1;
+            continue;
+        }
+
         return 0;
     }
+
+    return (bracket_count == 0 && !expecting_operand);
         
 
 }
