@@ -188,7 +188,7 @@ typedef struct stack_ptr {
 - `is_variable(Node* node)` — проверка, является ли узел переменной
 - `is_number_node(Node* node)` — проверка, является ли узел числом
 
-## Структура проекта
+## Структура работы
 
 ```
 Lab3/
