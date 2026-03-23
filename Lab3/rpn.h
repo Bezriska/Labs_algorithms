@@ -8,17 +8,6 @@
 #include "validation.h"
 #include "check_priority.h"
 
-// typedef struct {
-//     char oper;
-//     int prior;
-// } Oper;
-
-// Oper* initiate_oper() {
-//     Oper* op = (Oper*)malloc(sizeof(Oper));
-//     op->oper = NULL;
-//     op->prior = NULL;
-//     return op;
-// }
 
 
 char* rpn(char* str) {
@@ -36,8 +25,8 @@ char* rpn(char* str) {
             continue;
         }
 
-        if (isdigit((unsigned char)str[i])) {
-            while (isdigit((unsigned char)str[i])) {
+        if (isdigit((unsigned char)str[i]) || isalpha((unsigned char)str[i])) {
+            while (isdigit((unsigned char)str[i]) || isalpha((unsigned char)str[i])) {
                 out[k++] = str[i++];
             }
             out[k++] = ' ';

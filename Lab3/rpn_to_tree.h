@@ -9,7 +9,20 @@
 #include "tree.h"
 
 
-int is_number(char* str) {
+int is_operand(char* str) {
+    if (str == NULL || str[0] == '\0') return 0;
+    
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (!isdigit((unsigned char)str[i]) && !isalpha((unsigned char)str[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int is_number_token(char* str) {
+    if (str == NULL || str[0] == '\0') return 0;
+    
     for (int i = 0; str[i] != '\0'; i++) {
         if (!isdigit((unsigned char)str[i])) {
             return 0;
@@ -30,8 +43,13 @@ Node* rpn_to_tree(char* str_rpn) {
     char* token = strtok(temp, " ");
     
     while (token != NULL) {
-        if (is_number(token)) {
-            Node* node = initiate_tree(token[0]);
+        if (is_operand(token)) {
+            Node* node;
+            if (is_number_token(token)) {
+                node = initiate_tree(atoi(token));
+            } else {
+                node = initiate_tree(token[0]);
+            }
             stack[stack_size++] = node;
         } 
         else if (isoper(token[0]) && strlen(token) == 1) {

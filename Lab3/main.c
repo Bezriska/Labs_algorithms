@@ -4,6 +4,7 @@
 #include "rpn.h"
 #include "rpn_to_tree.h"
 #include "tree.h"
+#include "calculate_tree.h"
 #define MAX_LENGHS  256
 
 
@@ -16,7 +17,7 @@
 
 int main() {
 
-    char str[MAX_LENGHS] = "(12+23-1)*20*1";
+    char str[MAX_LENGHS] = "(123+456-1)*b*1";
 
     if (validation(str)) {
         char* validated_str = str;
@@ -41,12 +42,17 @@ int main() {
         
         printf("\nДерево после упрощения:");
         print_tree(tree);
+
+        printf("\nДерево после вычислений:");
+        Node* calculated = simplify(tree);
+        print_tree(tree);
         
         free(rp);
     } else {
         printf("String is not valid\n");
         return 0;
     }
+
 
     
 

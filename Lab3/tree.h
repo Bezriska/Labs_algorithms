@@ -3,9 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Тип узла
+typedef enum {
+    NODE_NUMBER,
+    NODE_OPERATOR,
+    NODE_VARIABLE
+} NodeType;
 
 typedef struct node {
-    int data;
+    NodeType type;
+    union {
+        int number;
+        char op;
+        char variable;
+    } value;
     struct node* left;
     struct node* right;
     int depth;
@@ -13,7 +24,22 @@ typedef struct node {
 
 Node* initiate_tree(int head_data) {
     Node* n = (Node*)malloc(sizeof(Node));
-    n->data = head_data;
+    if (head_data >= 32 && head_data <= 126) {
+        char c = (char)head_data;
+        if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '(' || c == ')') {
+            n->type = NODE_OPERATOR;
+            n->value.op = c;
+        } else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
+            n->type = NODE_VARIABLE;
+            n->value.variable = c;
+        } else {
+            n->type = NODE_NUMBER;
+            n->value.number = head_data;
+        }
+    } else {
+        n->type = NODE_NUMBER;
+        n->value.number = head_data;
+    }
     n->left = NULL;
     n->right = NULL;
     n->depth = 0;
@@ -52,7 +78,18 @@ void print_tree_recursive(Node* node, int space) {
     for (int i = 5; i < space; i++) {
         printf(" ");
     }
-    printf("%c\n", node->data);
+    
+    switch (node->type) {
+        case NODE_NUMBER:
+            printf("%d\n", node->value.number);
+            break;
+        case NODE_OPERATOR:
+            printf("%c\n", node->value.op);
+            break;
+        case NODE_VARIABLE:
+            printf("%c\n", node->value.variable);
+            break;
+    }
     
     print_tree_recursive(node->left, space);
 }
@@ -68,9 +105,7 @@ int is_leaf(Node* node) {
 }
 
 int is_operator(Node* node) {
-    if (node == NULL) return 0;
-    char c = (char)node->data;
-    return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
+    return (node != NULL && node->type == NODE_OPERATOR);
 }
 
 Node* remove_unit_factors_tree(Node* node) {
@@ -81,16 +116,15 @@ Node* remove_unit_factors_tree(Node* node) {
     node->left = remove_unit_factors_tree(node->left);
     node->right = remove_unit_factors_tree(node->right);
 
-    if (node->data == '*') {
-        if (is_leaf(node->left) && node->left->data == '1') {
+    if (node->type == NODE_OPERATOR && node->value.op == '*') {
+        if (is_leaf(node->left) && node->left->type == NODE_NUMBER && node->left->value.number == 1) {
             Node* temp = node->right;
             free(node->left);
             free(node);
             return temp;
         }
         
-        // Случай 2: правый операнд — листовая 1
-        if (is_leaf(node->right) && node->right->data == '1') {
+        if (is_leaf(node->right) && node->right->type == NODE_NUMBER && node->right->value.number == 1) {
             Node* temp = node->left;
             free(node->right);
             free(node);
@@ -99,6 +133,11 @@ Node* remove_unit_factors_tree(Node* node) {
     }
     
     return node;
+}
+
+int child_exist(Node* top) {
+    if (top->left && top->right) return 1;
+    else return 0;
 }
 
 #endif

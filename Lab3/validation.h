@@ -23,12 +23,12 @@ int validation(char* str) {
             continue;
         }
 
-        if (isdigit((unsigned char)str[i])) {
+        if (isdigit((unsigned char)str[i]) || isalpha((unsigned char)str[i])) {
             if (!expecting_operand) {
                 return 0;
             }
 
-            while (isdigit((unsigned char)str[i + 1])) {
+            while (isdigit((unsigned char)str[i + 1]) || isalpha((unsigned char)str[i + 1])) {
                 ++i;
             }
             expecting_operand = 0;
