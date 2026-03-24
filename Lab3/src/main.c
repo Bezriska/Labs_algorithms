@@ -5,7 +5,7 @@
 #include "rpn_to_tree.h"
 #include "tree.h"
 #include "calculate_tree.h"
-#define MAX_LENGHS  256
+#include "read_expr.h"
 
 
 
@@ -17,7 +17,10 @@
 
 int main() {
 
-    char str[MAX_LENGHS] = "(123+456-1)*b*1* (v + 5-1)^2";
+    
+    printf("Введите выражение: ");
+    char* str = read_expr();
+
 
     if (validation(str)) {
         char* validated_str = str;
@@ -38,8 +41,7 @@ int main() {
         printf("\nДерево до упрощения:");
         print_tree(tree);
         
-        printf("\n=== Итеративное упрощение ===\n");
-        // Просто выполняем несколько итераций без проверки
+        printf("Итеративное упрощение\n");
         for (int i = 0; i < 3; i++) {
             tree = simplify(tree);
             tree = remove_unit_factors_tree(tree);
