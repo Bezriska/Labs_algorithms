@@ -9,7 +9,7 @@ char* read_expr() {
     ssize_t readed;
     while ((readed = getline(&expression, &len, stdin)) != -1) {
         if (readed > 0 && expression[readed - 1] == '\n') {
-            expression[readed - 1] == '\0';
+            expression[readed - 1] = '\0';
             return expression;
         }
     }
