@@ -38,10 +38,9 @@ int validate_key(char* key, int key_len) {
 
 
 char* zip_str(char* s) {
-    size_t len;
-    len = strlen(s);
-    int count = 0;
-    for (int i = 0; i < len; ++i) {
+    size_t len = strlen(s);
+    size_t count = 0;
+    for (size_t i = 0; i < len; ++i) {
         if (s[i] != '\0') ++count;
     }
 
@@ -58,7 +57,7 @@ Node* read(int output) {
     }
     
     
-    FILE* fp = fopen("../DATA/test.txt", "r");
+    FILE* fp = fopen("DATA/test.txt", "r");
     if (!fp) {
         printf("Невозможно открыть файл с командами\n");
         return NULL;
@@ -66,7 +65,7 @@ Node* read(int output) {
 
     FILE* fp1 = NULL;
     if (output) {
-        fp1 = fopen("../DATA/test_out.txt", "a");
+        fp1 = fopen("DATA/test_out.txt", "a");
         fprintf(fp1, "\n\n=== Вызов функции read ===\n\n");
         if (!fp1) {
             printf("Невозможно открыть файл для вывода\n");
