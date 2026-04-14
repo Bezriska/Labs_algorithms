@@ -1,5 +1,5 @@
 extern "C" {
-    #include "tree.h"
+    #include "src/tree.h"
 }
 #include <gtest/gtest.h>
 #include <cmath>
