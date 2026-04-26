@@ -3,3 +3,6 @@
 *.exe
 *.pdf
 *.dSYM
+tests
+main
+benchmark
