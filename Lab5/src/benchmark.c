@@ -21,11 +21,24 @@ void free_matrix(int** matrix, int size) {
     free(matrix);
 }
 
+int* generate_sizes(int max_size, int* count) {
+    int temp_count = 0;
+    
+    for (int i = 0; i <= max_size; i += 50) ++temp_count;
+    int* numbers = (int*)malloc(temp_count * sizeof(int));
+    for (int i = 0, val = 0; val <= max_size; val += 50, ++i) {
+        numbers[i] = val;
+    }
+    *count = temp_count;
+    return numbers;
+}
+
 int main() {
     srand(42);// фиксированный seed для воспроизводимости
 
-    int sizes[] = {10, 50, 100, 250, 500, 1000};
-    int num_tests = sizeof(sizes) / sizeof(sizes[0]);
+    int count = 0;
+    int* sizes = generate_sizes(1000, &count);
+    int num_tests = count;
     int repeats = 5;// количество повторений для усреднения
 
     printf("\n\nCPU: apple silicon M4, RAM: 16GB\n");
@@ -33,6 +46,12 @@ int main() {
 
     printf("%-10s %-15s\n", "Размер", "Время (мс)");
     printf("-----------------------\n");
+
+    FILE* fp = fopen("../DATA/benchmark.txt", "w");
+    if (!fp) {
+        printf("Невозможно открыть файл с бенчмарками\n");
+        return 1;
+    }
 
     for (int t = 0; t < num_tests; ++t) {
         int size = sizes[t];
@@ -53,8 +72,10 @@ int main() {
 
         double avg_time = total_time / repeats;
         printf("%-10d %-15.3f\n", size, avg_time);
+        fprintf(fp, "%d  %.3f\n", size, avg_time);
     }
     printf("\n\n");
 
+    fclose(fp);
     return 0;
 }

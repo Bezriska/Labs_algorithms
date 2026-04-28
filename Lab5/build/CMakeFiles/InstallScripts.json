@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/maxim/Documents/MAI_1_course/2_sem/Algorithms/Labs_algorithms/Lab5/build/cmake_install.cmake",
+		"/Users/maxim/Documents/MAI_1_course/2_sem/Algorithms/Labs_algorithms/Lab5/build/_deps/googletest-build/cmake_install.cmake",
+		"/Users/maxim/Documents/MAI_1_course/2_sem/Algorithms/Labs_algorithms/Lab5/build/_deps/googletest-build/googlemock/cmake_install.cmake",
+		"/Users/maxim/Documents/MAI_1_course/2_sem/Algorithms/Labs_algorithms/Lab5/build/_deps/googletest-build/googletest/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

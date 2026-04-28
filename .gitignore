@@ -6,3 +6,4 @@
 tests
 main
 benchmark
+.venv
